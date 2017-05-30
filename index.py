@@ -208,11 +208,11 @@ def main():
     dp.add_error_handler(error)
 
     # Start the Bot
-##    updater.start_webhook(listen="0.0.0.0",
-##                      port=PORT,
-##                      url_path=TOKEN)
-##    updater.bot.set_webhook("https://smaugbot.herokuapp.com/" + TOKEN)
-    updater.start_polling()
+    updater.start_webhook(listen="0.0.0.0",
+                      port=PORT,
+                      url_path=TOKEN)
+    updater.bot.set_webhook("https://delayedecho.herokuapp.com/" + TOKEN)
+##    updater.start_polling()
     updater.idle()
 
 if __name__ == '__main__':
