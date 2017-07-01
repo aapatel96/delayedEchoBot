@@ -76,7 +76,7 @@ def find_user(users, user_id):
 def start(bot, update, job_queue):
     update.message.reply_text("Yo")
     users.append(User(update.message.from_user.id))   
-    job_queue.run_once(herokualarm,15*60,context=job_queue)
+    job_queue.run_once(herokualarm,5,context=job_queue)
     
 
 def herokualarm(bot,job):
