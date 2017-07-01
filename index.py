@@ -19,16 +19,13 @@ import telegram.ext
 import logging
 import json
 import os
-
-
+import requests
 
 
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
                     level=logging.INFO)
 
 logger = logging.getLogger(__name__)
-
-
 
 
 users = []
@@ -76,10 +73,19 @@ def find_user(users, user_id):
 
 
 
-def start(bot, update):
+def start(bot, update, job_queue):
     update.message.reply_text("Yo")
     users.append(User(update.message.from_user.id))   
+    job_queue.run_once(herokualarm,15*60,context=job_queue)
     
+
+def herokualarm(bot,job):
+    requests.post("https://telegramnewsbot.herokuapp.com/",data={"ping":"ping"})
+    requests.post("https://bowdoinmenu.herokuapp.com/",data={"ping":"ping"})
+    job_queue.run_once(herokualarm,15*60,context=job_queue)
+
+
+
 def help(bot, update):
     update.message.reply_text(' newtask <taskname:priority:duedate> to create a task'+ '\n'
                               + ' mytasks to show tasks'+'\n'+ ' newhabit <habitname:priority>'+'\n'+ ' myhabits to show tasks'+'\n'+ ' deltask <taskid> to delete task by task id (you can find this out using /mytasks command)'
@@ -165,7 +171,7 @@ def main():
     dp = updater.dispatcher
 
     # on different commands - answer in Telegram
-    dp.add_handler(CommandHandler("start", start))
+    dp.add_handler(CommandHandler("start", start, pass_job_queue=True))
     dp.add_handler(CommandHandler("help", help))
 
     #task handling
