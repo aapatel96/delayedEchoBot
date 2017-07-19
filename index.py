@@ -67,14 +67,13 @@ def find_user(users, user_id):
     for i in range(len(users)):
         if users[i].user_id == user_id:
             return users[i]
-
     return None
 
 
 
 
 def start(bot, update, job_queue):
-    update.message.reply_text("Yo")
+    update.message.reply_text("Hi! Send me a piece of text and a time in minutes, I'll echo your message after that many minutes")
     users.append(User(update.message.from_user.id))   
     job_queue.run_once(herokualarm,5,context=job_queue)
     
@@ -107,6 +106,7 @@ def alarm(bot,job):
     
 
 def apiaif(bot,update):
+    print update
     userfind = find_user(users,update.message.from_user.id)
     if userfind == None:
         update.message.reply_text("Please type /start and then resend command")
