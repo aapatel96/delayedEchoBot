@@ -81,7 +81,7 @@ def start(bot, update, job_queue):
 def herokualarm(bot,job):
     requests.post("https://telegramnewsbot.herokuapp.com/",data={"ping":"ping"})
     requests.post("https://bowdoinmenu.herokuapp.com/",data={"ping":"ping"})
-    job_queue.run_once(herokualarm,15*60,context=job_queue)
+    job_queue.run_once(herokualarm,15*60,context=job.context)
 
 
 
